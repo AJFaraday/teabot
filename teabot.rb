@@ -5,7 +5,7 @@ require 'erb'
 class Teabot < Sinatra::Base
 
   set :static, true
-  set :public, File.dirname(__FILE__) + '/static'
+  set :public_dir, File.dirname(__FILE__) + '/static'
 
   before do
     get_data
@@ -26,7 +26,19 @@ class Teabot < Sinatra::Base
     display(:source)
   end
 
+  get '/calibrate' do
+    display(:calibrate)
+  end
 
+  # fill individual piece of content (From scale) (params[:value])
+  #
+  # empty_weight
+  # cup_weight
+  # full_weight
+  #
+  post '/calibrate' do
+
+  end
 
   # This blindly takes a forms content and adds it to
   # the data.yml file
