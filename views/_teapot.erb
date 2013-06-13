@@ -1,0 +1,16 @@
+<br/>
+<%= percent_fill %>% full
+<br/>
+
+<% height = 275.0 # the height of the open space %>
+<% offset = 95.0 # the offset at the top of the image %>
+
+<% tea_height = (percent_fill.to_f/100.0)*height # the height of the tea in the pot %>
+
+<% style = "height:#{tea_height}px;top:#{(height-(tea_height))+offset}px;" %>
+<div class='teapot-back'>
+  <img class=teapot-border src='/teapot-border.png'/>
+  <div class=teapot-fill
+       style='<%= style %>'>
+  </div>
+</div>

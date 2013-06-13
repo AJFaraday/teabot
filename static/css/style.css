@@ -13,3 +13,25 @@
 .footer{
 
 }
+
+.teapot-back{
+  position:relative;
+  background-color: white;
+  width:400px;
+  height:400px;
+  padding:0px;
+}
+
+.teapot-border{
+  position:absolute;
+  z-index:2;
+}
+
+.teapot-fill{
+  position:absolute;
+  background-color:#8b4513;
+  width:400px;
+  z-index:1;
+  /*top: 100px;
+  height:100px;*/
+}

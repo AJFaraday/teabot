@@ -6,7 +6,11 @@ class Teabot < Sinatra::Base
 
   set :static, true
   set :public, File.dirname(__FILE__) + '/static'
-  
+
+  before do
+    get_data
+  end
+
   get '/' do
     # This will be the general info view about the teapot
     display(:index)
@@ -22,12 +26,13 @@ class Teabot < Sinatra::Base
     display(:source)
   end
 
+
+
   # This blindly takes a forms content and adds it to
   # the data.yml file
   #
   # Will be used for scale_polling method
   post '/accept_data' do
-    get_data
     set_data(params)
     "Data Received! #{params.inspect} \n Data is now: #{@data.inspect}"
   end
@@ -49,7 +54,7 @@ class Teabot < Sinatra::Base
     result = ''
     result << erb(:header)
     if view.is_a?(Symbol)
-      result << erb(:index)
+      result << erb(view)
     else
       result << view
     end
