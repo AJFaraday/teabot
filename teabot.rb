@@ -3,6 +3,9 @@ require 'sinatra/base'
 require 'erb'
 
 class Teabot < Sinatra::Base
+
+  set :static, true
+  set :public, File.dirname(__FILE__) + '/static'
   
   get '/' do
     # This will be the general info view about the teapot
@@ -20,15 +23,19 @@ class Teabot < Sinatra::Base
   end
 
   post '/weight_data' do
+    File.open( 'data.yaml', 'w' ) do |out|
+      YAML.dump( params, out )
+    end
     # This will take the actual data from the scale
-    display("Data recieved! #{params.inspect}")
+    #display("Data recieved! #{params.inspect}")
+    "Data Received! #{params.inspect}"
   end
 
-  def display_view(view)
+  def display(view)
     result = ''
     result << erb(:header)
     if view.is_a?(Symbol)
-      result << erb(view)
+      result << erb(:index)
     else
       result << view
     end
