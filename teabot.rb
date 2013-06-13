@@ -22,13 +22,27 @@ class Teabot < Sinatra::Base
     display(:source)
   end
 
-  post '/weight_data' do
-    File.open( 'data.yaml', 'w' ) do |out|
-      YAML.dump( params, out )
+  # This blindly takes a forms content and adds it to
+  # the data.yml file
+  #
+  # Will be used for scale_polling method
+  post '/accept_data' do
+    get_data
+    set_data(params)
+    "Data Received! #{params.inspect} \n Data is now: #{@data.inspect}"
+  end
+
+  def get_data
+    @data = YAML.load_file('data.yml')
+    @data ||= {}
+  end
+
+  def set_data(data={})
+    @data.merge!(data)
+    File.open( 'data.yml', 'w' ) do |out|
+      YAML.dump( @data, out )
     end
-    # This will take the actual data from the scale
-    #display("Data recieved! #{params.inspect}")
-    "Data Received! #{params.inspect}"
+
   end
 
   def display(view)
