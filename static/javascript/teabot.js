@@ -3,10 +3,13 @@ function set_fill(percent) {
   jQuery('#percent_display').removeClass('red');
   if (percent > 100) {
     jQuery('#percent_display').addClass('red');
-    percent = 100;
+    show_percent = 100
   }
-  if (percent < 0) {
-    percent = 0;
+  else if (percent < 0) {
+    show_percent = 0
+  }
+  else {
+    show_percent = percent
   }
   if (percent < 10) {
     jQuery('#percent_display').addClass('red');
@@ -15,7 +18,7 @@ function set_fill(percent) {
   var height = 275.0;
   var offset = 95.0;
 
-  var tea_height = (percent / 100.0) * height;
+  var tea_height = (show_percent / 100.0) * height;
   var tea_top = ((height - tea_height + offset));
 
   //Plain non-animated method of setting height
@@ -28,7 +31,7 @@ function set_fill(percent) {
     {
       duration: 1000,
       step: function(){
-        $('#percent_display').text(Math.ceil(this.value));
+        $('#percent_display').text(Math.round(this.value));
       }
     }
   );
