@@ -49,14 +49,20 @@ class Teabot < Sinatra::Base
   post '/calibrate/:step' do
     case params[:step]
       when '2'
+        puts 'at step 2'
         set_data(:empty_weight => read_scale)
         erb(:_calibrate_step2)
       when '3'
+        puts 'at step 3'
         weight = read_scale
         set_data({:cup_weight => (weight - @data[:empty_weight])})
         erb(:_calibrate_step3)
       when '4'
+        puts 'at step 4'
         set_data(:full_weight => read_scale)
+        # A list of saved teapot names
+        @teapots
+        erb(:_calibrate_step4)
     end
 
   end

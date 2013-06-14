@@ -1,9 +1,19 @@
 require 'rubygems'
 require 'yaml'
 
+def yaml_path(name='working_data')
+  File.dirname(__FILE__) + "/../data/#{name}.yml"
+end
+
+# A method of convenience to get yaml from the data folder
+def fetch_yaml(name='working_data')
+  system "touch #{yaml_path(name)}"
+  YAML.load_file(yaml_path(name))
+end
+
 # grabs data from yaml file
 def get_data
-  @data = YAML.load_file(File.dirname(__FILE__) + '/../data/working_data.yml')
+  @data = fetch_yaml 'working_data'
   @data ||= {}
 end
 
@@ -11,7 +21,7 @@ end
 def set_data(data={})
   @data ||= get_data
   @data.merge!(data)
-  File.open(File.dirname(__FILE__) + '/../data/working_data.yml', 'w' ) do |out|
+  File.open(yaml_path('working_data'), 'w' ) do |out|
     YAML.dump( @data, out )
   end
 end
@@ -19,12 +29,12 @@ end
 # currently mock, read number from scale
 # TODO find a way to read a real scale
 def read_scale
-  YAML.load_file(File.dirname(__FILE__) + '/../data/scale.yml')
+  fetch_yaml('scale')
 end
 
 
 def mock_set_scale(weight=10)
-  File.open(File.dirname(__FILE__) + '/../data/scale.yml', 'w' ) do |out|
+  File.open(yaml_path('scale'), 'w' ) do |out|
     YAML.dump(weight, out )
   end
 end
