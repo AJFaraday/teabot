@@ -1,0 +1,20 @@
+<form href='/calibrate/<%=step%>' id="calibrate_form">
+  <input type="hidden" name="step" value='<%=step%>' />
+  <input type="submit" value="Continue"/>
+</form>
+
+<script type="text/javascript">
+    jQuery('#calibrate_form').on('submit', function(e) {
+        e.preventDefault();
+        jQuery.ajax({
+            type: 'POST',
+            cache: false,
+            url: '/calibrate/<%=step%>',
+            data: jQuery(this).serialize(),
+            success: function(response){
+                alert(response);
+                jQuery('#wizard_body').html(response);
+            }
+        });
+    });
+</script>

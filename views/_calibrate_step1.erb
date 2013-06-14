@@ -1,0 +1,15 @@
+<div id="wizard_body">
+  <p>Welcome to the Teabot calibration wizard, I hope you'll feel at home here.</p>
+
+  <p>
+    This is just to gather a little data to give us some idea just how big your teapot is,
+    so I can work out exactly how full your teapot is, and nobody will be
+    disappointed when I tell them there's a cup or two left.
+  </p>
+
+  <p>
+    First things first, empty your teapot, pop the lid back on,
+    and set it down on the scale. Then press Continue.
+  </p>
+
+  <%= render :partial => 'calibrate_form', :locals => {:step => 2} %>

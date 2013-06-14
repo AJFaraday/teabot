@@ -1,6 +1,10 @@
 require 'rubygems' if RUBY_VERSION < "1.9"
 require 'sinatra/base'
 require 'erb'
+require 'json'
+
+require File.dirname(__FILE__) + '/lib/helpers.rb'
+
 
 class Teabot < Sinatra::Base
 
@@ -9,6 +13,10 @@ class Teabot < Sinatra::Base
 
   before do
     get_data
+  end
+
+  get '/data' do
+    @data.to_json
   end
 
   get '/' do
@@ -26,17 +34,30 @@ class Teabot < Sinatra::Base
     display(:source)
   end
 
-  get '/calibrate' do
+  get '/calibrate/:step' do
+    if [1..3].include?(params[:step].to_i)
+      @step = params[:step].to_i
+    else
+      @step = 1
+    end
     display(:calibrate)
   end
 
-  # fill individual piece of content (From scale) (params[:value])
   #
-  # empty_weight
-  # cup_weight
-  # full_weight
+  # fill individual piece of data (From scale)
   #
-  post '/calibrate' do
+  post '/calibrate/:step' do
+    case params[:step]
+      when '2'
+        set_data(:empty_weight => read_scale)
+        erb(:_calibrate_step2)
+      when '3'
+        weight = read_scale
+        set_data({:cup_weight => (weight - @data[:empty_weight])})
+        erb(:_calibrate_step3)
+      when '4'
+        set_data(:full_weight => read_scale)
+    end
 
   end
 
@@ -49,18 +70,6 @@ class Teabot < Sinatra::Base
     "Data Received! #{params.inspect} \n Data is now: #{@data.inspect}"
   end
 
-  def get_data
-    @data = YAML.load_file('data.yml')
-    @data ||= {}
-  end
-
-  def set_data(data={})
-    @data.merge!(data)
-    File.open( 'data.yml', 'w' ) do |out|
-      YAML.dump( @data, out )
-    end
-
-  end
 
   def display(view)
     result = ''

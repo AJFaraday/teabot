@@ -1,4 +1,12 @@
 function set_fill(percent){
+  if (percent > 100)
+  {
+    percent = 100 ;
+  }
+  if (percent < 0)
+  {
+    percent = 0 ;
+  }
   var tea = jQuery('#tea');
   var height = 275.0;
   var offset = 95.0;
@@ -13,3 +21,11 @@ function set_fill(percent){
   tea.animate({'height':tea_height,'top':tea_top},1000);
   jQuery('#percent_display').html(percent);
 }
+
+function start_polling(){
+    var $tide = setInterval(function(){
+        set_fill(90);
+        set_fill(20)
+    },10000);
+}
+

@@ -1,0 +1,11 @@
+<p>
+  Thanks for that! It seems your empty teapot weighs <%= @data[:empty_weight] %>
+  grams (or something).
+</p>
+<p>
+  Next, it might be nice to see if we can tell people roughly how many cups
+  are left in the pot. So go and grab an ordinarily-sized cup full of water,
+  pour that into the pot, pop the lid back on and click 'Continue'.
+</p>
+
+<%= render :partial => 'calibrate_form', :locals => {:step => 3} %>

@@ -1,0 +1,11 @@
+<p>
+  Cheers! It seems your average cup weighs <%= @data[:cup_weight] %>
+  grams (or something). Don't get too upset if this one isn't quite right.
+</p>
+<p>
+  We're almost there! Now I just need to know how heavy a full teapot is.
+  You probably know the drill by now, go and fill your teapot up, brim-full,
+  and pop it on the scale, lid and all. When you've done all that, click 'Continue'.
+</p>
+
+<%= render :partial => 'calibrate_form', :locals => {:step => 4} %>
