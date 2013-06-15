@@ -1,3 +1,5 @@
+<h2>Teapot Calibration Wizard - Complete!</h2>
+
 <p>
   Well, you're done! Thanks for all that data, the Teabot will be delighted.
 </p>
@@ -9,4 +11,30 @@
   Oh. and one last thing! Which teapot are you using? Choose a name, or name it,
   then you can swap back-and-forth a little more easily.
 </p>
+
+<form href='/calibrate/5' id="calibrate_form" method='post'>
+  <input type="hidden" name="step" value='5' />
+  <select name="teapot[name]" id="teapot_select">
+    <% @teapots.each do |teapot| %>
+      <option value=<%=teapot%>><%= teapot %></option>
+    <% end  %>
+    <option value='new'>A new teapot</option>
+  </select>
+  <input type="text" style='display:none;'
+         id="'new_name" name="teapot[new_name]"/>
+
+  <input type="submit" value="Continue"/>
+</form>
+
+<script type="text/javascript">
+  function show_name(){
+    if('#teapot_select').value == 'new')
+      {
+
+      }
+  }
+
+  jQuery('#teapot_select').on('change', function(){show_name()});
+  show_name()
+</script>
 

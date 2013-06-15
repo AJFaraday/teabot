@@ -34,13 +34,9 @@ class Teabot < Sinatra::Base
     display(:source)
   end
 
-  get '/calibrate/:step' do
-    if [1..3].include?(params[:step].to_i)
-      @step = params[:step].to_i
-    else
-      @step = 1
-    end
-    display(:calibrate)
+  get '/calibrate' do
+
+    display(:_calibrate_step1)
   end
 
   #
@@ -55,13 +51,13 @@ class Teabot < Sinatra::Base
       when '3'
         puts 'at step 3'
         weight = read_scale
-        set_data({:cup_weight => (weight - @data[:empty_weight])})
+        set_data({:cup_weight => (weight.to_f - @data[:empty_weight].to_f)})
         erb(:_calibrate_step3)
       when '4'
         puts 'at step 4'
         set_data(:full_weight => read_scale)
         # A list of saved teapot names
-        @teapots
+        @teapots = get_teapot_names
         erb(:_calibrate_step4)
     end
 

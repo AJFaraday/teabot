@@ -21,8 +21,8 @@ end
 def set_data(data={})
   @data ||= get_data
   @data.merge!(data)
-  File.open(yaml_path('working_data'), 'w' ) do |out|
-    YAML.dump( @data, out )
+  File.open(yaml_path('working_data'), 'w') do |out|
+    YAML.dump(data, out)
   end
 end
 
@@ -34,9 +34,32 @@ end
 
 
 def mock_set_scale(weight=10)
-  File.open(yaml_path('scale'), 'w' ) do |out|
-    YAML.dump(weight, out )
+  File.open(yaml_path('scale'), 'w') do |out|
+    YAML.dump(weight, out)
   end
 end
 
 alias :finger :mock_set_scale
+
+def get_teapots
+  fetch_yaml('teapots')
+end
+
+def teapot_names
+  get_teapots.keys
+end
+
+def write_teapot(name, empty, cup, full)
+  teapots = get_teapots
+  File.open(yaml_path('teapots'), 'w') do |out|
+    YAML.dump(
+      weight,
+      teapots.merge({name => {
+                        :empty_weight => empty,
+                        :cup_weight => cup,
+                        :full_weight => full
+                      }
+                    })
+    )
+  end
+end
