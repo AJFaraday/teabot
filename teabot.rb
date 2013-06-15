@@ -63,14 +63,81 @@ class Teabot < Sinatra::Base
     end
   end
 
+  post '/remove_teapot' do
+    name = params[:remove_teapot_name]
+    if name == ''
+      @error = "If you want to remove a teapot, select one."
+    else
+      remove_teapot(name)
+      @message = "Removed #{name} from the list of teapots."
+    end
+    display(:teapot_station)
+  end
+
   post '/set_pourer' do
     pourer = params[:current_pourer]
     if pourers.include?(pourer)
-      set_data({:current_pourer => pourer}.merge(pourers))
-      "Tea was made by #{pourer}"
+      set_data({:current_pourer => pourer})
+      "Nice one, #{pourer}!"
     else
       "Something's wrong: #{pourer} doesn't seem to be on the list."
     end
+  end
+
+  post '/add_pourer' do
+    name = params[:new_pourer_name]
+    if name.empty?
+      @error = "If you want to add a pourer, tell me their name."
+    else
+      add_pourer(name)
+      @message = "Added #{name} to the list of pourers."
+    end
+    display(:teapot_station)
+  end
+
+  post '/remove_pourer' do
+    name = params[:remove_pourer_name]
+    if name == ''
+      @error = "If you want to remove a pourer, select one."
+    else
+      remove_pourer(name)
+      @message = "Removed #{name} from the list of pourers."
+    end
+    display(:teapot_station)
+  end
+  
+  
+  
+  post '/set_tea' do
+    tea = params[:current_tea]
+    if teas.include?(tea)
+      set_data({:current_tea => tea})
+      "Tea set to #{tea}!"
+    else
+      "Something's wrong: #{tea} doesn't seem to be on the list."
+    end
+  end
+
+  post '/add_tea' do
+    name = params[:new_tea_name]
+    if name.empty?
+      @error = "If you want to add a tea, tell me their name."
+    else
+      add_tea(name)
+      @message = "Added #{name} to the list of teas."
+    end
+    display(:teapot_station)
+  end
+
+  post '/remove_tea' do
+    name = params[:remove_tea_name]
+    if name == ''
+      @error = "If you want to remove a tea, select one."
+    else
+      remove_tea(name)
+      @message = "Removed #{name} from the list of teas."
+    end
+    display(:teapot_station)
   end
 
   get '/calibrate' do

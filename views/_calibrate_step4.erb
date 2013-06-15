@@ -24,7 +24,7 @@
     <label for="teapot['name']">Teapot</label>
     <select name="teapot[name]" id="teapot_select">
       <% @teapots.each do |teapot| %>
-          <option value=<%= teapot %>><%= teapot %></option>
+          <option value="<%= teapot %>"><%= teapot %></option>
       <% end %>
       <option value='new'>A new teapot</option>
     </select>

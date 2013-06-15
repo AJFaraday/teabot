@@ -1,21 +1,8 @@
 <h2>Teapot Station Interface</h2>
 
 <form>
-  <p>Select Teapot in use:</p>
-  <div id="teapots">
-    <% teapot_names.each do |teapot| %>
-        <input type="radio"
-               id="<%=teapot %>"
-               name="teapot"
-               <%= "checked='checked'" if @data[:current_teapot] == teapot %>
-        />
-        <label for="<%=teapot %>"><%=teapot%></label>
-    <% end %>
-  </div>
-  <div class='message_space' id="teapot_message"></div>
-</form>
-<form>
   <p>Who made the tea:</p>
+
   <div id="pourers">
     <% pourers.each do |pourer| %>
         <input type="radio"
@@ -23,40 +10,159 @@
                name="pourer"
                <%= "checked='checked'" if @data[:current_pourer] == pourer %>
         />
-        <label for="<%= pourer %>"><%=pourer%></label>
+        <label for="<%= pourer %>"><%= pourer %></label>
     <% end %>
   </div>
   <div class='message_space' id="pourer_message"></div>
 </form>
 
+<form>
+  <p>Select Teapot in use:</p>
 
+  <div id="teapots">
+    <% teapot_names.each do |teapot| %>
+        <input type="radio"
+               id="<%= teapot %>"
+               name="teapot"
+               <%= "checked='checked'" if @data[:current_teapot] == teapot %>
+        />
+        <label for="<%= teapot %>"><%= teapot %></label>
+    <% end %>
+  </div>
+  <div class='message_space' id="teapot_message"></div>
+</form>
+
+<form>
+  <p>What kind of tea is it?</p>
+
+  <div id="teas">
+    <% teas.each do |tea| %>
+        <input type="radio"
+               id="<%= tea %>"
+               name="tea"
+               <%= "checked='checked'" if @data[:current_tea] == tea %>
+        />
+        <label for="<%= tea %>"><%= tea %></label>
+    <% end %>
+  </div>
+  <div class='message_space' id="tea_message"></div>
+</form>
+
+
+<a href="#" id="show_link">Show List Manager</a>
+<div style='display:none;' id="list_manager">
+  <a href="#" id="hide_link">Hide List Manager</a>
+
+  <h3>Manage Pourers</h3>
+
+  <form action='/add_pourer' method='post'>
+    <label for="new_pourer_name">New Pourer</label>
+    <input type="text" name="new_pourer_name"/>
+    <input type="submit" value="Add Pourer"/>
+  </form>
+  <form action='/remove_pourer' method='post'>
+    <label for="remove_pourer_name">Pourer to Remove</label>
+
+    <select name="remove_pourer_name">
+      <option value=''>Choose One...</option>
+      <% pourers.each do |pourer| %>
+          <option value="<%= pourer %>"><%= pourer %></option>
+      <% end %>
+    </select>
+
+    <input type="submit" value="Remove Pourer"/>
+  </form>
+
+  <h3>Manage Teapots</h3>
+
+  <p>
+    To add or modify a teapot profile, use the <a href="/calibrate">calibration wizard</a>.
+  </p>
+
+  <form action='/remove_teapot' method='post'>
+    <label for="remove_teapot_name">Teapot to Remove</label>
+    <select name="remove_teapot_name">
+      <option value=''>Choose One...</option>
+      <% teapot_names.each do |teapot| %>
+          <option value="<%= teapot %>"><%= teapot %></option>
+      <% end %>
+    </select>
+
+    <input type="submit" value="Remove Teapot"/>
+  </form>
+
+
+  <h3>Manage Teas</h3>
+
+  <form action='/add_tea' method='post'>
+    <label for="new_tea_name">New Tea</label>
+    <input type="text" name="new_tea_name"/>
+    <input type="submit" value="Add Tea"/>
+  </form>
+  <form action='/remove_tea' method='post'>
+    <label for="remove_tea_name">Tea to Remove</label>
+    <select name="remove_tea_name">
+      <option value=''>Choose One...</option>
+      <% teas.each do |tea| %>
+          <option value="<%= tea %>"><%= tea %></option>
+      <% end %>
+    </select>
+
+    <input type="submit" value="Remove Pourer"/>
+  </form>
+</div>
 
 <script type='text/javascript'>
-  // set jquery UI controls
-  jQuery('#teapots').buttonset();
-  jQuery('#pourers').buttonset();
-  // response to change events
-  jQuery('input[name=teapot]').on('change', function(){
-    jQuery.ajax({
-      type: 'POST',
-      cache: false,
-      url: '/set_current_teapot',
-      data: {current_teapot: jQuery('input[name=teapot]:checked').attr('id')},
-      success: function(response){
-        jQuery('#teapot_message').html(response);
-      }
+    // set jquery UI controls
+    jQuery('#pourers').buttonset();
+    jQuery('#teapots').buttonset();
+    jQuery('#teas').buttonset();
+    // response to change events
+    jQuery('input[name=pourer]').on('change', function () {
+        jQuery.ajax({
+            type:'POST',
+            cache:false,
+            url:'/set_pourer',
+            data:{current_pourer:jQuery('input[name=pourer]:checked').attr('id')},
+            success:function (response) {
+                jQuery('#pourer_message').html(response);
+            }
+        });
     });
+
+    jQuery('input[name=teapot]').on('change', function () {
+        jQuery.ajax({
+            type:'POST',
+            cache:false,
+            url:'/set_current_teapot',
+            data:{current_teapot:jQuery('input[name=teapot]:checked').attr('id')},
+            success:function (response) {
+                jQuery('#teapot_message').html(response);
+            }
+        });
+    });
+
+    jQuery('input[name=tea]').on('change', function () {
+        jQuery.ajax({
+            type:'POST',
+            cache:false,
+            url:'/set_tea',
+            data:{current_tea:jQuery('input[name=tea]:checked').attr('id')},
+            success:function (response) {
+                jQuery('#tea_message').html(response);
+            }
+        });
+    });
+
+  jQuery('#show_link').on('click', function(e) {
+    e.preventDefault();
+    jQuery('#list_manager').show();
+    jQuery('#show_link').hide();
   });
 
-  jQuery('input[name=pourer]').on('change', function(){
-      jQuery.ajax({
-          type: 'POST',
-          cache: false,
-          url: '/set_pourer',
-          data: {current_teapot: jQuery('input[name=pourer]:checked').attr('id')},
-          success: function(response){
-              jQuery('#pourer_message').html(response);
-          }
-      });
+  jQuery('#hide_link').on('click', function(e) {
+    e.preventDefault();
+    jQuery('#list_manager').hide();
+    jQuery('#show_link').show();
   });
 </script>

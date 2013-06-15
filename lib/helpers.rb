@@ -75,6 +75,16 @@ def get_teapot(name='')
   get_teapots[name]
 end
 
+def remove_teapot(name)
+  teapots = get_teapots
+  teapots.delete(name)
+  File.open(yaml_path('teapots'), 'w') do |out|
+    YAML.dump(
+      teapots,out
+    )
+  end
+end
+
 def write_teapot(name, empty, cup, full, cup_capacity)
   teapots = get_teapots
   File.open(yaml_path('teapots'), 'w') do |out|
@@ -92,18 +102,41 @@ def write_teapot(name, empty, cup, full, cup_capacity)
 end
 
 def pourers
-  fetch_yaml('pourer')
+  list = fetch_yaml('pourer')
+  list = [] if list.is_a?(Hash)
+  list.sort
 end
 
 def add_pourer(name)
+  list = (pourers << name).uniq
   File.open(yaml_path('pourer'), 'w') do |out|
-    YAML.dump((pourers << name), out)
+    YAML.dump(list, out)
   end
 end
 
 def remove_pourer(name)
+  list = pourers - [name]
   File.open(yaml_path('pourer'), 'w') do |out|
-    YAML.dump((pourers - name), out)
+    YAML.dump(list, out)
   end
 end
 
+def teas
+  list = fetch_yaml('tea')
+  list = [] if list.is_a?(Hash)
+  list.sort
+end
+
+def add_tea(name)
+  list = (teas << name).uniq
+  File.open(yaml_path('tea'), 'w') do |out|
+    YAML.dump(list, out)
+  end
+end
+
+def remove_tea(name)
+  list = teas - [name]
+  File.open(yaml_path('tea'), 'w') do |out|
+    YAML.dump(list, out)
+  end
+end
