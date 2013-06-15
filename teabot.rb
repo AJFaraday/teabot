@@ -33,10 +33,14 @@ class Teabot < Sinatra::Base
     else
       update = true
     end
-    message = "Teapot is over 100% full, consider re-calibrating the scale." if percent_fill > 100
+    if percent_fill > 100
+      message = "Teapot is over 100% full, consider re-calibrating the scale."
+    end
     data = {
       :percent_fill => percent_fill,
       :teapot_name => @data[:current_teapot],
+      :cups => cup_fill,
+      :cup_capacity => @data[:cup_capacity],
       :message => message,
       :change => update
     }.to_json
@@ -83,7 +87,7 @@ class Teabot < Sinatra::Base
       when '4'
         weight = read_scale
         if weight.to_f >= (@data[:empty_weight]+@data[:cup_weight])
-          cup_capacity = (@data[:cup_weight]/@data[:full_weight]).to_f
+          cup_capacity = ((weight.to_f-@data[:empty_weight].to_f)/@data[:cup_weight].to_f).to_i
           set_data(:full_weight => weight, :cup_capacity => cup_capacity)
           # A list of saved teapot names
           @teapots = teapot_names
@@ -94,7 +98,8 @@ class Teabot < Sinatra::Base
         end
       when '5'
         if params[:teapot][:name] == 'new'
-          name = params[:teapot][:new_name]
+          name = params[:teapot][:new_name] if params[:teapot][:new_name].any?
+          name ||= "Unnamed Teapot"
         else
           name = params[:teapot][:name]
         end

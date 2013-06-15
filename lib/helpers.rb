@@ -20,14 +20,16 @@ def get_data
 end
 
 # expands/overrides stored data with given hash
-def set_data(data={})
+def set_data(data={},hide_debug=false)
   @data = get_data
   @data.merge!(data)
   File.open(yaml_path('working_data'), 'w') do |out|
     YAML.dump(@data, out)
   end
-  puts "Setting data:"
-  puts @data.inspect
+  unless hide_debug
+    puts "Setting data:"
+    puts @data.inspect
+  end
 end
 
 def percent_fill
@@ -39,6 +41,10 @@ def percent_fill
   ((modified_weight/modified_full_weight)*100).to_i
 end
 
+# How many cups are in the pot
+def cup_fill
+  ((percent_fill/100.0)*@data[:cup_capacity]).to_i
+end
 
 # currently mock, read number from scale
 # TODO find a way to read a real scale
@@ -62,7 +68,7 @@ def get_teapots
 end
 
 def teapot_names
-  get_teapots.keys
+  get_teapots.keys.sort
 end
 
 def get_teapot(name='')

@@ -1,7 +1,14 @@
 <div id="teapot_summary">
-  The teapot <span id="teapot_name"><%= @data[:current_teapot] %></span> is
-  <span id="percent_display"><%= percent_fill %></span>% full
+  <p>
+    The teapot <span id="teapot_name"><%= @data[:current_teapot] %></span> is
+    <span id="percent_display"><%= percent_fill %></span>% full
+  </p>
+  <p>
+    That's <span id="cups_display"><%= cup_fill %></span>
+    out of <span id="cup_capacity"><%= @data[:cup_capacity].to_i %></span> cups.
+  </p>
 </div>
+
 <div id="poll_message" class='message_space'></div>
 <br/>
 

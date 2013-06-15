@@ -50,6 +50,8 @@ function start_polling() {
         if (data.change){
           set_fill(data.percent_fill);
           $('#teapot_name').html(data.teapot_name);
+          $('#cups_display').html(data.cups);
+          $('#cups_capacity').html(data.cup_capacity);
         }
         $('#poll_message').html(data.message);
       }
