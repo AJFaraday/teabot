@@ -25,6 +25,25 @@ class Teabot < Sinatra::Base
     display(:index)
   end
 
+  get '/teapot_data' do
+    message = ''
+    if @data[:weight]<@data[:empty_weight]
+      message = "Teapot not currently on scale..."
+      update = false
+    else
+      update = true
+    end
+    message = "Teapot is over 100% full, consider re-calibrating the scale." if percent_fill > 100
+    data = {
+      :percent_fill => percent_fill,
+      :teapot_name => @data[:current_teapot],
+      :message => message,
+      :change => update
+    }.to_json
+    puts data
+    data
+  end
+
   get '/teapot_station' do
     # This will be the interface at the teapot station
     display(:teapot_station)
@@ -50,20 +69,29 @@ class Teabot < Sinatra::Base
   post '/calibrate/:step' do
     case params[:step]
       when '2'
-        puts 'at step 2'
         set_data(:empty_weight => read_scale)
         erb(:_calibrate_step2)
       when '3'
-        puts 'at step 3'
         weight = read_scale
-        set_data({:cup_weight => (weight.to_f - @data[:empty_weight].to_f)})
-        erb(:_calibrate_step3)
+        if weight.to_f > @data[:empty_weight].to_f
+          set_data({:cup_weight => (weight.to_f - @data[:empty_weight].to_f)})
+          erb(:_calibrate_step3)
+        else
+          @error = "A teapot usually gets heavier when you add a cup of water. Are you sure you're not filling it with helium?"
+          erb(:_calibrate_step2)
+        end
       when '4'
-        puts 'at step 4'
-        set_data(:full_weight => read_scale)
-        # A list of saved teapot names
-        @teapots = teapot_names
-        erb(:_calibrate_step4)
+        weight = read_scale
+        if weight.to_f >= (@data[:empty_weight]+@data[:cup_weight])
+          cup_capacity = (@data[:cup_weight]/@data[:full_weight]).to_f
+          set_data(:full_weight => weight, :cup_capacity => cup_capacity)
+          # A list of saved teapot names
+          @teapots = teapot_names
+          erb(:_calibrate_step4)
+        else
+          @error = "A teapot usually gets heavier when you fill it up. Are you sure you filled it?"
+          erb(:_calibrate_step3)
+        end
       when '5'
         if params[:teapot][:name] == 'new'
           name = params[:teapot][:new_name]
@@ -73,23 +101,14 @@ class Teabot < Sinatra::Base
         write_teapot(name,
                      @data[:empty_weight],
                      @data[:cup_weight],
-                     @data[:full_weight])
+                     @data[:full_weight],
+                     @data[:cup_capacity])
         set_data({:current_teapot => name})
         @message = "You've saved this teapot '#{name}' for future use."
         redirect "/?message=#{@message}"
     end
 
   end
-
-  # This blindly takes a forms content and adds it to
-  # the data.yml file
-  #
-  # Will be used for scale_polling method
-  post '/accept_data' do
-    set_data(params)
-    "Data Received! #{params.inspect} \n Data is now: #{@data.inspect}"
-  end
-
 
   def display(view)
     result = ''

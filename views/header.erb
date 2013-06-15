@@ -24,6 +24,11 @@
         <%= @message %>
       </div>
     <% end %>
+    <% if @error %>
+        <div class='error'>
+          <%= @error %>
+        </div>
+    <% end %>
     <div class='main'>
       <h1>TEABOT - The office teapot solution</h1>
       <%# yeild other content (check display method in main app file %>

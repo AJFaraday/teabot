@@ -1,3 +1,9 @@
+<div id="teapot_summary">
+  The teapot <span id="teapot_name"><%= @data[:current_teapot] %></span> is
+  <span id="percent_display"><%= percent_fill %></span>% full
+</div>
+<div id="poll_message" class='message_space'></div>
+<br/>
 
-<%= erb :_teapot, :locals =>{:percent_fill => 45} %>
+<%= erb :_teapot, :locals =>{:percent_fill => percent_fill} %>
 

@@ -16,7 +16,9 @@
 </form>
 
 <script>
+  // set jquery UI controls
   jQuery('#teapots').buttonset();
+  // response to change events
   jQuery('input[name=teapot]').on('change', function(){
     jQuery.ajax({
       type: 'POST',

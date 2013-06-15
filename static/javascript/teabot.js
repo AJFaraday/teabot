@@ -37,10 +37,23 @@ function set_fill(percent) {
   );
 }
 
+
+
 function start_polling() {
   var $tide = setInterval(function () {
-    set_fill(90);
-    set_fill(20);
+    jQuery.ajax({
+      type: 'GET',
+      cache: false,
+      url: '/teapot_data',
+      success: function(response){
+        var data = JSON.parse(response);
+        if (data.change){
+          set_fill(data.percent_fill);
+          $('#teapot_name').html(data.teapot_name);
+        }
+        $('#poll_message').html(data.message);
+      }
+    })
   }, 10000);
 }
 

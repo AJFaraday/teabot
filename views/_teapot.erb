@@ -1,6 +1,3 @@
-<br/>
-<span id="percent_display"><%= percent_fill %></span>% full
-<br/>
 
 <% height = 275.0 # the height of the open space %>
 <% offset = 95.0 # the offset at the top of the image %>
@@ -17,6 +14,6 @@
 </div>
 
 <script type="text/javascript" >
-  //var $tide = start_polling();
+  start_polling();
   jQuery('#tea').attr('value','<%=percent_fill%>');
 </script>
