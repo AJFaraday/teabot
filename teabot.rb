@@ -63,6 +63,16 @@ class Teabot < Sinatra::Base
     end
   end
 
+  post '/set_pourer' do
+    pourer = params[:current_pourer]
+    if pourers.include?(pourer)
+      set_data({:current_pourer => pourer}.merge(pourers))
+      "Tea was made by #{pourer}"
+    else
+      "Something's wrong: #{pourer} doesn't seem to be on the list."
+    end
+  end
+
   get '/calibrate' do
     display(:_calibrate_step1)
   end

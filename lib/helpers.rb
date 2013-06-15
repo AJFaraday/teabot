@@ -90,3 +90,20 @@ def write_teapot(name, empty, cup, full, cup_capacity)
     )
   end
 end
+
+def pourers
+  fetch_yaml('pourer')
+end
+
+def add_pourer(name)
+  File.open(yaml_path('pourer'), 'w') do |out|
+    YAML.dump((pourers << name), out)
+  end
+end
+
+def remove_pourer(name)
+  File.open(yaml_path('pourer'), 'w') do |out|
+    YAML.dump((pourers - name), out)
+  end
+end
+
