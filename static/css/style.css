@@ -41,3 +41,8 @@
 .red{
   color:red;
 }
+
+.message_space{
+  height: 20px;
+  margin:10px;
+}

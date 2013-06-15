@@ -25,18 +25,22 @@ class Teabot < Sinatra::Base
     display(:index)
   end
 
-  get '/source' do
+  get '/teapot_station' do
     # This will be the interface at the teapot station
-    display(:source)
+    display(:teapot_station)
   end
 
-  post '/source' do
-    # This will accept data from the source (tea maker etc)
-    display(:source)
+  post '/set_current_teapot' do
+    teapot = params[:current_teapot]
+    if teapot_names.include?(teapot)
+      set_data({:current_teapot => teapot}.merge(get_teapots[teapot]))
+      "Teapot profile set to #{teapot}"
+    else
+      "Something's wrong: #{teapot} doesn't seem to be on the list."
+    end
   end
 
   get '/calibrate' do
-
     display(:_calibrate_step1)
   end
 
@@ -70,7 +74,7 @@ class Teabot < Sinatra::Base
                      @data[:empty_weight],
                      @data[:cup_weight],
                      @data[:full_weight])
-
+        set_data({:current_teapot => name})
         @message = "You've saved this teapot '#{name}' for future use."
         redirect "/?message=#{@message}"
     end

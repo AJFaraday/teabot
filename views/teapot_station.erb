@@ -1,0 +1,31 @@
+<h2>Teapot Station Interface</h2>
+
+<form>
+  <p>Select Teapot in use:</p>
+  <div id="teapots">
+    <% teapot_names.each do |teapot| %>
+        <input type="radio"
+               id="<%=teapot %>"
+               name="teapot"
+               <%= "checked='checked'" if @data[:current_teapot] == teapot %>
+        />
+        <label for="<%=teapot %>"><%=teapot%></label>
+    <% end %>
+  </div>
+  <div class='message_space' id="teapot_message"></div>
+</form>
+
+<script>
+  jQuery('#teapots').buttonset();
+  jQuery('input[name=teapot]').on('change', function(){
+    jQuery.ajax({
+      type: 'POST',
+      cache: false,
+      url: '/set_current_teapot',
+      data: {current_teapot: jQuery('input[name=teapot]:checked').attr('id')},
+      success: function(response){
+        jQuery('#teapot_message').html(response);
+      }
+    });
+  });
+</script>
