@@ -1,5 +1,4 @@
 --- 
-:full_weight: 100.0
-:weight: 99
-:cup_weight: 5.0
-:empty_weight: 10.0
+:empty_weight: 20.0
+:full_weight: 300.0
+:cup_weight: 10.0

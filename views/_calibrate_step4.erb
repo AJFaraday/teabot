@@ -12,29 +12,37 @@
   then you can swap back-and-forth a little more easily.
 </p>
 
-<form href='/calibrate/5' id="calibrate_form" method='post'>
-  <input type="hidden" name="step" value='5' />
-  <select name="teapot[name]" id="teapot_select">
-    <% @teapots.each do |teapot| %>
-      <option value=<%=teapot%>><%= teapot %></option>
-    <% end  %>
-    <option value='new'>A new teapot</option>
-  </select>
-  <input type="text" style='display:none;'
-         id="'new_name" name="teapot[new_name]"/>
+<form action='/calibrate/5' id="calibrate_form" method='post'>
 
-  <input type="submit" value="Continue"/>
+  <p>
+    <label for="teapot['name']">Teapot</label>
+    <select name="teapot[name]" id="teapot_select">
+      <% @teapots.each do |teapot| %>
+          <option value=<%= teapot %>><%= teapot %></option>
+      <% end %>
+      <option value='new'>A new teapot</option>
+    </select>
+  </p>
+  <p id="new_name" style='display:none;'>
+    <label for="teapot['new_name']">New Teapot Name</label>
+    <input type="text" name="teapot[new_name]"/>
+  </p>
+  <input type="submit" value="Finish"/>
 </form>
 
 <script type="text/javascript">
-  function show_name(){
-    if('#teapot_select').value == 'new')
-      {
+    function show_name() {
+        if (jQuery('#teapot_select').val() == 'new') {
+            jQuery('#new_name').show()
+        }
+        else {
+            jQuery('#new_name').hide()
+        }
+    }
 
-      }
-  }
-
-  jQuery('#teapot_select').on('change', function(){show_name()});
-  show_name()
+    jQuery('#teapot_select').on('change', function () {
+        show_name()
+    });
+    show_name()
 </script>
 

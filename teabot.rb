@@ -13,6 +13,7 @@ class Teabot < Sinatra::Base
 
   before do
     get_data
+    @message = params[:message]
   end
 
   get '/data' do
@@ -26,7 +27,7 @@ class Teabot < Sinatra::Base
 
   get '/source' do
     # This will be the interface at the teapot station
-    display(:source) 
+    display(:source)
   end
 
   post '/source' do
@@ -57,8 +58,21 @@ class Teabot < Sinatra::Base
         puts 'at step 4'
         set_data(:full_weight => read_scale)
         # A list of saved teapot names
-        @teapots = get_teapot_names
+        @teapots = teapot_names
         erb(:_calibrate_step4)
+      when '5'
+        if params[:teapot][:name] == 'new'
+          name = params[:teapot][:new_name]
+        else
+          name = params[:teapot][:name]
+        end
+        write_teapot(name,
+                     @data[:empty_weight],
+                     @data[:cup_weight],
+                     @data[:full_weight])
+
+        @message = "You've saved this teapot '#{name}' for future use."
+        redirect "/?message=#{@message}"
     end
 
   end
@@ -83,6 +97,6 @@ class Teabot < Sinatra::Base
     end
     result << erb(:footer)
     result
-  end 
+  end
 
 end

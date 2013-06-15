@@ -17,6 +17,11 @@
       <li><a href="/calibrate">Calibrate Scale</a></li>
     </ul>
     <hr/>
+    <% if @message %>
+      <div class='message'>
+        <%= @message %>
+      </div>
+    <% end %>
     <div class='main'>
       <h1>TEABOT - The office teapot solution</h1>
       <%# yeild other content (check display method in main app file %>
