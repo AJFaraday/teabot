@@ -2,6 +2,7 @@ require 'rubygems' if RUBY_VERSION < "1.9"
 require 'sinatra/base'
 require 'erb'
 require 'json'
+require 'activesupport'
 
 require File.dirname(__FILE__) + '/lib/helpers.rb'
 
@@ -21,6 +22,10 @@ class Teabot < Sinatra::Base
   end
 
   get '/' do
+    if @data.empty?
+      message = "The teabot knows nothing! Please calibrate the scales."
+      redirect "/calibrate?message=#{message}"
+    end
     # This will be the general info view about the teapot
     display(:index)
   end
@@ -36,17 +41,30 @@ class Teabot < Sinatra::Base
     if percent_fill > 100
       message = "Teapot is over 100% full, consider re-calibrating the scale."
     end
+
+    if @data[:last_filled] > (Time.now - (60*6)) and @data[:last_filled] < (Time.now - (60*5))
+      notify = true
+    else
+      notify = false
+    end
+
     data = {
       :percent_fill => percent_fill,
       :teapot_name => @data[:current_teapot],
       :cups => cup_fill,
+      :notify => notify,
       :cup_capacity => @data[:cup_capacity],
       :message => message,
-      :change => update
+      :change => update,
+      :last_made => last_filled,
+      :current_tea => @data[:current_tea],
+      :current_pourer => @data[:current_pourer]
     }.to_json
     puts data
     data
   end
+
+
 
   get '/teapot_station' do
     # This will be the interface at the teapot station

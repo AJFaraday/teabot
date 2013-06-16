@@ -49,11 +49,18 @@ function start_polling() {
         var data = JSON.parse(response);
         if (data.change){
           set_fill(data.percent_fill);
-          $('#teapot_name').html(data.teapot_name);
-          $('#cups_display').html(data.cups);
-          $('#cups_capacity').html(data.cup_capacity);
+          jQuery('#teapot_name').html(data.teapot_name);
+          jQuery('#cups_display').html(data.cups);
+          jQuery('#cups_capacity').html(data.cup_capacity);
         }
-        $('#poll_message').html(data.message);
+        if (data.notify){
+          jQuery('#teapot_summary').effect('highlight', {color:'#8b4513'}, 5000);
+
+        }
+        jQuery('#pourer').html(data.current_pourer);
+        jQuery('#tea_name').html(data.current_tea);
+        jQuery('#time').html(data.last_made);
+        jQuery('#poll_message').html(data.message);
       }
     })
   }, 10000);

@@ -1,5 +1,6 @@
 require 'rubygems'
 require 'yaml'
+require File.dirname(__FILE__) + '/time-ago-in-words.rb'
 
 def yaml_path(name='working_data')
   File.dirname(__FILE__) + "/../data/#{name}.yml"
@@ -34,11 +35,15 @@ end
 
 def percent_fill
   get_data
-  # weight of the tea (not the pot)
-  modified_weight = @data[:weight]-@data[:empty_weight]
-  # weight of a pot of tea (but not the pot)
-  modified_full_weight = @data[:full_weight]-@data[:empty_weight]
-  ((modified_weight/modified_full_weight)*100).to_i
+  if @data[:weight] and @data[:empty_weight]
+    # weight of the tea (not the pot)
+    modified_weight = @data[:weight]-@data[:empty_weight]
+    # weight of a pot of tea (but not the pot)
+    modified_full_weight = @data[:full_weight]-@data[:empty_weight]
+    ((modified_weight/modified_full_weight)*100).to_i
+  else
+    0
+  end
 end
 
 # How many cups are in the pot
@@ -138,5 +143,13 @@ def remove_tea(name)
   list = teas - [name]
   File.open(yaml_path('tea'), 'w') do |out|
     YAML.dump(list, out)
+  end
+end
+
+def last_filled
+  begin
+  @data[:last_filled].time_ago_in_words
+  rescue
+    ""
   end
 end
