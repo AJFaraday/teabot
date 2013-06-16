@@ -1,34 +1,35 @@
 <!DOCTYPE HTML>
 <head>
-  <link rel="icon" href="/icon.png" type="image/png" >
-  <link rel="stylesheet" type="text/css" href="/css/style.css" >
-  <link rel="stylesheet" type="text/css" href="/css/jquery-ui.css" >
+  <link rel="icon" href="/icon.png" type="image/png">
+  <link rel="stylesheet" type="text/css" href="/css/teabot.css">
+  <link rel="stylesheet" type="text/css" href="/css/jquery-ui.css">
   <script src='/javascript/jquery-1.10.1.min.js'></script>
   <script src='/javascript/jquery-ui.min.js'></script>
   <script src='/javascript/teabot.js'></script>
 </head>
 <body>
-  <div class='site_holder'>
-    <div class='header'>
-      <img src="/header<%= (Time.now.min % 2)+1 %>.png">
+<div class='site_holder'>
+  <div class='header'>
+    <div class='header-logo'>
+      <img class='header-image' src="/header<%= (Time.now.min % 2)+1 %>.png">
     </div>
-    <hr/>
-    <ul class='menu'>
-      <li><a href="/">Home</a></li>
-      <li><a href="/teapot_station">Teapot Station Interface</a></li>
-      <li><a href="/calibrate">Calibrate Scale</a></li>
-    </ul>
-    <hr/>
-    <% if @message %>
-      <div class='message'>
-        <%= @message %>
-      </div>
-    <% end %>
-    <% if @error %>
-        <div class='error'>
-          <%= @error %>
-        </div>
-    <% end %>
-    <div class='main'>
-      <h1>TEABOT - The office teapot solution</h1>
-      <%# yeild other content (check display method in main app file %>
+    <div class='menu'>
+      <a href="/"><div>Home</div></a>
+      <a href="/teapot_station"><div>Teapot Station Interface</div></a>
+      <a href="/calibrate"><div>Calibrate Scale</div></a>
+    </div>
+  </div>
+  <hr/>
+  <% if @message %>
+    <div class='message'>
+      <%= @message %>
+    </div>
+  <% end %>
+  <% if @error %>
+    <div class='error'>
+      <%= @error %>
+    </div>
+  <% end %>
+  <div class='main'>
+    <h1>TEABOT - The office teapot solution</h1>
+    <%# yeild other content (check display method in main app file %>

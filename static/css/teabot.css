@@ -7,9 +7,52 @@
   margin-right: auto;
 }
 
-.header{
+.header-logo{
+  position:relative;
+  float:right;
+
   background-color: #dcc0a2;
   border-radius:10px;
+  width:520px;
+  padding-left:10px;
+}
+
+.header-image{
+  margin-left:auto;
+  margin-right:auto;
+}
+
+div.menu {
+  position:relative;
+  float:left;
+  width:480px;
+}
+
+div.menu div {
+  position:relative;
+  float:left;
+  border-radius:20px;
+  background-color:#ddccaa;
+  padding:10px;
+  margin:0px 10px 10px 0px;
+  border: solid #aa8855 1px;
+
+}
+
+div.menu a {
+  color: black;
+  font-weight:bold;
+}
+
+div.menu a:visited {
+  color: black;
+  font-weight:bold;
+}
+
+.header{
+  padding:0px;
+  margin:0px;
+  height:160px;
 }
 
 .footer{
