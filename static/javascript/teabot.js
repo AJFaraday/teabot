@@ -15,8 +15,8 @@ function set_fill(percent) {
     jQuery('#percent_display').addClass('red');
   }
   var tea = jQuery('#tea');
-  var height = 275.0;
-  var offset = 95.0;
+  var height = 248.0;
+  var offset = 110.0;
 
   var tea_height = (show_percent / 100.0) * height;
   var tea_top = ((height - tea_height + offset));
@@ -25,7 +25,7 @@ function set_fill(percent) {
   //tea.css('height',tea_height);
   //tea.css('top',tea_top);
 
-  tea.animate({'height':tea_height, 'top':tea_top},{duration: 1000});
+  tea.animate({'height':tea_height, 'top':tea_top},{duration: 5000});
   jQuery({value:$('#percent_display').html()}).animate(
     {value:percent},
     {
@@ -51,11 +51,11 @@ function start_polling() {
           set_fill(data.percent_fill);
           jQuery('#teapot_name').html(data.teapot_name);
           jQuery('#cups_display').html(data.cups);
-          jQuery('#cups_capacity').html(data.cup_capacity);
+          jQuery('#cup_capacity').html(data.cup_capacity);
         }
         if (data.notify){
           jQuery('#teapot_summary').effect('highlight', {color:'#8b4513'}, 5000);
-
+          flash_title();
         }
         jQuery('#pourer').html(data.current_pourer);
         jQuery('#tea_name').html(data.current_tea);
@@ -63,7 +63,7 @@ function start_polling() {
         jQuery('#poll_message').html(data.message);
       }
     })
-  }, 10000);
+  }, 60000);
 }
 
 function stop_polling(){
@@ -71,7 +71,26 @@ function stop_polling(){
 }
 
 
-
+function flash_title(){
+  var notifyTitle = "Teabot(1) - Tea's up!"
+  var usualTitle = "Teabot"
+  var counter = 0
+  var flashing = setInterval(function(){
+    if (counter % 2 == 0)
+    {
+      jQuery('#head-title').html(notifyTitle);
+    }
+    else
+    {
+      jQuery('#head-title').html(usualTitle);
+    }
+    counter ++;
+    if (counter >= 20) {
+      clearInterval(flashing);
+    };
+  },500);
+  jQuery('#head-title').html(usualTitle);
+};
 
 
 

@@ -30,6 +30,7 @@ class Teabot < Sinatra::Base
     display(:index)
   end
 
+  # Working data sent to update index method
   get '/teapot_data' do
     message = ''
     if @data[:weight]<@data[:empty_weight]
@@ -165,7 +166,8 @@ class Teabot < Sinatra::Base
   #
   # fill individual piece of data (From scale)
   #
-  post '/calibrate/:step' do
+  post '/calibrate' do
+    puts params.inspect
     case params[:step]
       when '2'
         set_data(:empty_weight => read_scale)
@@ -206,6 +208,8 @@ class Teabot < Sinatra::Base
         set_data({:current_teapot => name})
         @message = "You've saved this teapot '#{name}' for future use."
         redirect "/?message=#{@message}"
+      else
+        "<h1>IT'S ALL GONE WRONG!!!</h1>\n#{params.inspect}"
     end
 
   end

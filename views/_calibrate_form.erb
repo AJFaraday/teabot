@@ -1,6 +1,6 @@
-<form action='/calibrate/<%=step%>' id="calibrate_form">
+<form action='/calibrate' id="calibrate_form">
   <input type="hidden" name="step" value='<%=step%>' />
-  <input type="submit" value="Continue"/>
+  <input type="submit" value="Continue" class='wizard_submit'/>
 </form>
 
 <script type="text/javascript">
@@ -9,8 +9,8 @@
         jQuery.ajax({
             type: 'POST',
             cache: false,
-            url: '/calibrate/<%=step%>',
-            data: jQuery(this).serialize(),
+            url: '/calibrate',
+            data: jQuery('#calibrate_form').serialize(),
             success: function(response){
                 //alert(response);
                 jQuery('#wizard_body').html(response);

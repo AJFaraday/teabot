@@ -1,8 +1,9 @@
 <% if @error %>
-    <div class='error'>
-      <%= @error %>
-    </div>
+  <div class='error'>
+    <%= @error %>
+  </div>
 <% end %>
+
 
 <h2>Teapot Calibration Wizard - Step 2</h2>
 
@@ -10,6 +11,7 @@
   Thanks for that! It seems your empty teapot weighs <%= @data[:empty_weight] %>
   grams (or something).
 </p>
+
 <p>
   Next, it might be nice to see if we can tell people roughly how many cups
   are left in the pot. So go and grab an ordinarily-sized cup full of water,

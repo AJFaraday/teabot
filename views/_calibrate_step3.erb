@@ -1,18 +1,22 @@
 <% if @error %>
-    <div class='error'>
-      <%= @error %>
-    </div>
+  <div class='error'>
+    <%= @error %>
+  </div>
 <% end %>
+
+
 <h2>Teapot Calibration Wizard - Step 3</h2>
 
 <p>
   Cheers! It seems your average cup weighs <%= @data[:cup_weight] %>
   grams (or something). Don't get too upset if this one isn't quite right.
 </p>
+
 <p>
   We're almost there! Now I just need to know how heavy a full teapot is.
   You probably know the drill by now, go and fill your teapot up, brim-full,
   and pop it on the scale, lid and all. When you've done all that, click 'Continue'.
 </p>
+
 
 <%= erb :_calibrate_form, :locals => {:step => 4} %>
