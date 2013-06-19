@@ -54,6 +54,7 @@ function start_polling() {
           jQuery('#cup_capacity').html(data.cup_capacity);
         }
         if (data.notify){
+          document.getElementById('sound').play();
           jQuery('#teapot_summary').effect('highlight', {color:'#8b4513'}, 5000);
           flash_title();
         }

@@ -1,8 +1,27 @@
     </div>
     <hr/>
     <div class='footer'>
+
       <p>Raw Data (silly debug line): <%= @data.inspect %></p>
       <p>Developed with trepidation by Andrew Faraday</p>
+      <p><a href='#' id="volume_link">Mute</a></p>
     </div>
   </div>
+
+  <script type='text/javascript'>
+    jQuery('#volume_link').on('click', function(e){
+      e.preventDefault();
+      if (jQuery('#volume_link').html() == 'Mute')
+      {
+        document.getElementById('sound').muted = true;
+        jQuery('#volume_link').html('Unmute');
+      }
+      else
+      {
+        document.getElementById('sound').muted = false;
+        jQuery('#volume_link').html('Mute');
+      }
+    });
+  </script>
 </body>
+

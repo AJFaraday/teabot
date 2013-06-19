@@ -10,7 +10,15 @@
     out of <span id="cup_capacity"><%= @data[:cup_capacity].to_i %></span> cups.
   </p>
 </div>
-<div id="poll_message" class='message_space'></div>
+<div id="poll_message" class='message_space'>
+  <%= "It the teapot's not currently on the scale..." %>
+</div>
+
+<audio id='sound'>
+  <source src="/audio/tea.mp3" type="audio/mpeg">
+  <source src="/audio/tea.ogg" type="audio/ogg">
+  <source src="/audio/tea.wav" type="audio/wav">
+</audio>
 
 <%= erb :_teapot, :locals =>{:percent_fill => percent_fill} %>
 
