@@ -50,9 +50,14 @@ begin
 
       if @data[:empty_weight] and @data[:last_positive_weight]
         # Normal Working
+
+        modified_weight = reading.to_f - @data[:empty_weight]
+        modified_full_weight = @data[:full_weight]-@data[:empty_weight]
+        percent = ((modified_weight/modified_full_weight)*100).to_i
+
         if ((reading.to_f > (@data[:last_positive_weight].to_f * 1.1)) and
           (reading > @data[:empty_weight]) and
-          percent_fill > 90
+          percent > 85
         )
           puts "Looks like the teapot's been filled again."
           set_data({:weight => reading.to_f, :last_filled => Time.now}, true)
