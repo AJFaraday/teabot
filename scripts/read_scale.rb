@@ -46,9 +46,14 @@ begin
       # setting data in the same way I did before the scale
       get_data
 
+
+
       if @data[:empty_weight] and @data[:last_positive_weight]
         # Normal Working
-        if (reading.to_f > (@data[:last_positive_weight].to_f * 1.1)) and (reading > @data[:empty_weight])
+        if ((reading.to_f > (@data[:last_positive_weight].to_f * 1.1)) and
+          (reading > @data[:empty_weight]) and
+          percent_fill > 90
+        )
           puts "Looks like the teapot's been filled again."
           set_data({:weight => reading.to_f, :last_filled => Time.now}, true)
         else
@@ -57,7 +62,7 @@ begin
 
       else
         # For pre-setup teabot
-        set_data({:weight => reading}, true)
+        set_data({:weight => reading.to_f}, true)
       end
       if reading > @data[:empty_weight].to_f
         set_data({:last_positive_weight => reading}, true)
