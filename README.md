@@ -20,6 +20,28 @@ Features:
 * 5 Minute Notification for the Perfect Brew
 * Tea age and level are indicated
 
+![Screenshot](/teabot-screenshot.png)
+
+
+Instructions
+------------
+
+With a linux box and a DYMO M5 scale, this initial setup should work:
+
+* `git clone git@github.com:AJFaraday/teabot.git`
+* `cd teabot`
+* `bundle install`
+* Start polling scale with: `sudo ruby scripts/read_scale.rb`
+* If the previous script stops try `sudo ruby scripts/scale_reset.rb` and repeat
+* `rackup config.ru`
+* Point your browser to localhost:9292
+* 
+
+
+This will probably work in the same way for MAC, almost certainly not for Windows. 
+
+For another brand or model of scale, some hacking will be required.
+
 
 Technologies
 ------------
