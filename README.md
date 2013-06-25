@@ -35,7 +35,16 @@ With a linux box and a DYMO M5 scale, this initial setup should work:
 * If the previous script stops try `sudo ruby scripts/scale_reset.rb` and repeat
 * `rackup config.ru`
 * Point your browser to localhost:9292
-* 
+* Click 'Calibrate Scale' and follow instructions (you may have to wait a second between loading the scale and proceeding).
+* Make a brew
+
+After initial setup:
+
+* `cd teabot`
+* Start polling scale with: `sudo ruby scripts/read_scale.rb`
+* If the previous script stops try `sudo ruby scripts/scale_reset.rb` and repeat
+* `rackup config.ru`
+* Make a Brew
 
 
 This will probably work in the same way for MAC, almost certainly not for Windows. 
