@@ -14,7 +14,7 @@ loop do
 
     if ((weight.to_f > (@data[:last_positive_weight].to_f * 1.1)) and
       (weight > @data[:empty_weight]) and
-      percent > 85
+      percent > 90
     )
       puts "Looks like the teapot's been filled again."
       set_data({:weight => weight.to_f, :last_filled => Time.now}, true)
