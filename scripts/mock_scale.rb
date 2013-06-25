@@ -11,5 +11,4 @@ loop do
   else
     set_data({:weight => weight},true)
   end
-  sleep 10
 end

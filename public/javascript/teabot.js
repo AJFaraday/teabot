@@ -25,9 +25,10 @@ function set_fill(percent) {
   //tea.css('height',tea_height);
   //tea.css('top',tea_top);
 
+
   tea.animate({'height':tea_height, 'top':tea_top},{duration: 5000});
   jQuery({value:$('#percent_display').html()}).animate(
-    {value:percent},
+    {value:show_percent},
     {
       duration: 1000,
       step: function(){

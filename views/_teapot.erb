@@ -1,7 +1,15 @@
 <% height = 248.0 # the height of the open space   %>
 <% offset = 110.0 # the offset at the top of the image   %>
 
-<% tea_height = (percent_fill.to_f/100.0)*height # the height of the tea in the pot   %>
+<% if percent_fill > 100
+     percent = 100
+   elsif percent_fill < 0
+     percent = 0
+   else
+     percent = percent_fill
+   end %>
+
+<% tea_height = (percent.to_f/100.0)*height # the height of the tea in the pot   %>
 
 <% tea_height = height if tea_height > height %>
 
