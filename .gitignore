@@ -3,3 +3,5 @@ data/scale.yml
 data/teapots.yml
 data/tea.yml
 data/pourer.yml
+
+Gemfile.lock

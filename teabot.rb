@@ -4,13 +4,15 @@ require 'erb'
 require 'json'
 require 'activesupport'
 
+require "logger"
+
 require File.dirname(__FILE__) + '/lib/helpers.rb'
 
 
 class Teabot < Sinatra::Base
 
   set :static, true
-  set :public_dir, File.dirname(__FILE__) + '/static'
+  set :public_dir, File.dirname(__FILE__) + '/public'
 
   before do
     get_data
