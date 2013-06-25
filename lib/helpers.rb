@@ -1,6 +1,7 @@
 require 'rubygems'
 require 'yaml'
 require File.dirname(__FILE__) + '/time-ago-in-words.rb'
+require 'libusb'
 
 def yaml_path(name='working_data')
   File.dirname(__FILE__) + "/../data/#{name}.yml"
@@ -42,7 +43,8 @@ def percent_fill
     modified_full_weight = @data[:full_weight]-@data[:empty_weight]
     ((modified_weight/modified_full_weight)*100).to_i
   else
-    0
+    puts "percent fill not calcuated"
+    0.0
   end
 end
 
@@ -51,13 +53,7 @@ def cup_fill
   ((percent_fill/100.0)*@data[:cup_capacity]).to_i
 end
 
-# currently mock, read number from scale
-# TODO find a way to read a real scale
-def read_scale
-  weight = fetch_yaml('scale')
-  puts "Read the scale: #{weight}"
-  weight
-end
+
 
 
 def mock_set_scale(weight=10)
@@ -117,6 +113,7 @@ def add_pourer(name)
   File.open(yaml_path('pourer'), 'w') do |out|
     YAML.dump(list, out)
   end
+  set_data({:current_pourer => name})
 end
 
 def remove_pourer(name)
@@ -137,7 +134,9 @@ def add_tea(name)
   File.open(yaml_path('tea'), 'w') do |out|
     YAML.dump(list, out)
   end
+  set_data({:current_tea => name})
 end
+
 
 def remove_tea(name)
   list = teas - [name]
@@ -153,3 +152,4 @@ def last_filled
     ""
   end
 end
+

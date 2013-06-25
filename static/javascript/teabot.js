@@ -64,7 +64,7 @@ function start_polling() {
         jQuery('#poll_message').html(data.message);
       }
     })
-  }, 60000);
+  }, 10000);
 }
 
 function stop_polling(){

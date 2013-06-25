@@ -11,7 +11,7 @@
   </p>
 </div>
 <div id="poll_message" class='message_space'>
-  <%= "It the teapot's not currently on the scale..." %>
+  <%= "It the teapot's not currently on the scale..." if @data[:weight] < @data[:empty_weight] %>
 </div>
 
 <audio id='sound'>

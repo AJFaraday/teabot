@@ -22,7 +22,7 @@ class Time
     unit = get_unit(time_difference)
     unit_difference = time_difference / Units.const_get(unit.capitalize)
 
-    unit = unit.to_s.downcase + ('s' if time_difference > 1)
+    unit = unit.to_s.downcase + ('s' if time_difference.to_i > 1)
 
     "#{unit_difference} #{unit} ago"
   end

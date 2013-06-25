@@ -22,7 +22,7 @@ class Teabot < Sinatra::Base
   end
 
   get '/' do
-    if @data.empty?
+    unless @data[:full_weight]
       message = "The teabot knows nothing! Please calibrate the scales."
       redirect "/calibrate?message=#{message}"
     end
@@ -43,7 +43,9 @@ class Teabot < Sinatra::Base
       message = "Teapot is over 100% full, consider re-calibrating the scale."
     end
 
-    if @data[:last_filled] > (Time.now - (60*6)) and @data[:last_filled] < (Time.now - (60*5))
+    if @data[:last_filled] and
+      @data[:last_filled] > (Time.now - ((60*5)+10)) and
+      @data[:last_filled] < (Time.now - (60*5))
       notify = true
     else
       notify = false
@@ -170,10 +172,10 @@ class Teabot < Sinatra::Base
     puts params.inspect
     case params[:step]
       when '2'
-        set_data(:empty_weight => read_scale)
+        set_data(:empty_weight => @data[:weight])
         erb(:_calibrate_step2)
       when '3'
-        weight = read_scale
+        weight = @data[:weight]
         if weight.to_f > @data[:empty_weight].to_f
           set_data({:cup_weight => (weight.to_f - @data[:empty_weight].to_f)})
           erb(:_calibrate_step3)
@@ -182,10 +184,10 @@ class Teabot < Sinatra::Base
           erb(:_calibrate_step2)
         end
       when '4'
-        weight = read_scale
-        if weight.to_f >= (@data[:empty_weight]+@data[:cup_weight])
+        weight = @data[:weight]
+        if weight.to_f >= (@data[:empty_weight].to_f+@data[:cup_weight].to_f)
           cup_capacity = ((weight.to_f-@data[:empty_weight].to_f)/@data[:cup_weight].to_f).to_i
-          set_data(:full_weight => weight, :cup_capacity => cup_capacity)
+          set_data(:full_weight => weight.to_f, :cup_capacity => cup_capacity)
           # A list of saved teapot names
           @teapots = teapot_names
           erb(:_calibrate_step4)
