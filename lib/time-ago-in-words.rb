@@ -13,7 +13,7 @@ class Time
     time_difference = Time.now.to_i - self.to_i
 
     if time_difference > 60
-      "#{(time_difference.to_f % 60).to_i} minutes ago"
+      "#{(time_difference.to_f / 60.0).to_i} minutes ago"
     else
       "less than a minute ago"
     end
