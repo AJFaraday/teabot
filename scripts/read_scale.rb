@@ -6,6 +6,8 @@ require File.dirname(__FILE__) + '/../lib/helpers.rb'
 usb = LIBUSB::Context.new
 device = usb.devices(:idVendor => 0x0922, :idProduct => 0x8005).first
 
+
+
 begin
   device.open_interface(0) do |handle|
 
@@ -57,8 +59,8 @@ begin
 
         if ((reading.to_f > (@data[:last_positive_weight].to_f * 1.1)) and
           (reading > @data[:empty_weight]) and
-          percent > 80 and percent < 110 and
-          reading.to_f == @data[:weight].to_f
+          percent > 80 and percent < 110 #and
+          #reading.to_f == @data[:weight].to_f
         )
           puts "Looks like the teapot's been filled again."
           set_data({:weight => reading.to_f, :last_filled => Time.now}, true)
@@ -73,6 +75,8 @@ begin
       if reading > @data[:empty_weight].to_f
         set_data({:last_positive_weight => reading}, true)
       end
+
+      record_data(reading)
 
       sleep 1
     end

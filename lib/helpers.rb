@@ -153,3 +153,30 @@ def last_filled
   end
 end
 
+
+
+# Stuff just for CSV recording of live data
+require 'csv'
+def record_data(reading)
+  get_data
+  CSV
+  modified_weight = reading.to_f - @data[:empty_weight]
+  modified_full_weight = @data[:full_weight]-@data[:empty_weight]
+  percent = ((modified_weight/modified_full_weight)*100).to_i
+  get_data
+  # Actual data to record
+  line = [
+    Time.now.to_i,
+    Time.now.strftime('%I:%M%P'),
+    @data[:current_pourer],
+    @data[:last_filled].to_i, # seconds since last fill
+    percent
+  ]
+  # make correctly formatted CSV line
+  line = CSV.generate_line(line)
+
+  file_path = "File.dirname(__FILE__)/../recorded_data/#{Time.new.strftime('%y-%m-%d')}.csv"
+  File.open(file_path, 'a') do |file|
+    file.puts line
+  end
+end
