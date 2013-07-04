@@ -1,0 +1,8 @@
+<VirtualHost *:80>
+    ServerName localhost
+    DocumentRoot /opt/teabot/public
+    <Directory /opt/teabot/public>
+        Allow from all
+        Options -MultiViews
+    </Directory>
+</VirtualHost>

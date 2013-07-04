@@ -60,11 +60,47 @@ These are instructions for setting up a *dedicated Teabot server!* This means:
 * You point the browser at the machine itself, without the port number (:9292)
 * You need never look at the screen of the teabot server after setup
 
-This has been tested with Ubuntu Server Edition(http://www.ubuntu.com/download/server),
-but a Rasperry Pi teabot is on the roadmap.
+The aim of this installation is a 'closed box' running the Teabot without maintenance.
 
+This has been tested with Ubuntu Server Edition on a netbook, but a Rasperry Pi teabot is on the roadmap.
 
+* Install Ubuntu Server Edition (http://www.ubuntu.com/download/server). I recommend calling the computer and user 'teabot'
+* `sudo apt-get install ruby rubygems git apache2 openssh`
+* Generate an ssh key and add it to your github account (you will need a github account) as described in https://help.github.com/articles/generating-ssh-keys
+* `cd /opt`
+* `git clone git@github.com:AJFaraday/teabot.git`
+* `cd teabot`
+* `gem install bundler`
+* `bundle install`
+* `sudo cp xtra/teabot_scale.init-d.template /etc/init.d/teabot_scale`
+* `sudo chmod 755 /etc/init.d/teabot_scale`
+* `sudo /etc/init.d/teabot_scale start` (look for 'Starting teabot polling at /opt/teabot/scripts/teabot_scale.rb'
+* Plug in the DYMO M5, and turn it on
+* `tail -f data/working_data.yml` and check that the weight property changes with the scale.
+* `update-rc.d teabot_scale defaults`
+* `gem install passenger`
+* `sudo passenger-install-apache2-module` (and follow the many instructions on screen)
+* `sudo cp xtra/default.apache.template /etc/apache2/sites-available/default`
+* `sudo /etc/init.d/apache2 restart`
 
+You should now be able to point another computer at the IP address of the teabot machine and see the site in action.
+
+*Notes:*
+* I have carried this installation out, but not following these instructions, I may well have missed many dependencies.
+* I have found zenmap is the easiest way to find the teabot from another machine, just scan 192.168.0.* or 192.168.1.* and look for the name 'teabot' if you used it on installing Ubuntu Server
+* If all goes well, on first use you will be directed to the calibration wizard, he's a nice chap, just do as he says and all will be well.
+
+Minimum Dedicated Teabot Server Specification
+---------------------------------------------
+
+As tested, to date:
+
+* 512mb memory
+* 4gb hard-drive
+* 1 usb port
+* 1 ethernet socket
+
+Needless to say, not very much!
 
 Technologies
 ------------

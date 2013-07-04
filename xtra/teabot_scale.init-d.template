@@ -4,7 +4,7 @@
 # description: myapp daemon
 # processname: myapp
 
-DAEMON_PATH="/home/ajfaraday/Teabot/scripts"
+DAEMON_PATH="/opt/teabot/scripts"
 
 
 NAME=teabot-scale
