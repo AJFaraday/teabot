@@ -32,7 +32,6 @@ With a linux box and a DYMO M5 scale, this initial setup should work:
 * `cd teabot`
 * `bundle install`
 * Start polling scale with: `sudo ruby scripts/read_scale.rb`
-* If the previous script stops try `sudo ruby scripts/scale_reset.rb` and repeat
 * `rackup config.ru`
 * Point your browser to localhost:9292
 * Click 'Calibrate Scale' and follow instructions (you may have to wait a second between loading the scale and proceeding).
@@ -42,14 +41,29 @@ After initial setup:
 
 * `cd teabot`
 * Start polling scale with: `sudo ruby scripts/read_scale.rb`
-* If the previous script stops try `sudo ruby scripts/scale_reset.rb` and repeat
 * `rackup config.ru`
+* Point your browser to localhost:9292
 * Make a Brew
-
 
 This will probably work in the same way for MAC, almost certainly not for Windows. 
 
 For another brand or model of scale, some hacking will be required.
+
+
+Special Setup Instructions
+--------------------------
+
+These are instructions for setting up a *dedicated Teabot server!* This means:
+
+* The teabot server and USB polling scripts will begin on startup
+* The web interface is served via apache
+* You point the browser at the machine itself, without the port number (:9292)
+* You need never look at the screen of the teabot server after setup
+
+This has been tested with Ubuntu Server Edition(http://www.ubuntu.com/download/server),
+but a Rasperry Pi teabot is on the roadmap.
+
+
 
 
 Technologies

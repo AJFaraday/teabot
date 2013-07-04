@@ -1,0 +1,32 @@
+#!/bin/bash
+# myapp daemon
+# chkconfig: 345 20 80
+# description: myapp daemon
+# processname: myapp
+
+DAEMON_PATH="/home/ajfaraday/Teabot/scripts"
+
+
+NAME=teabot-scale
+DESC="Scale polling for the teabot"
+
+case "$1" in
+start)
+        echo Starting teabot polling at $DAEMON_PATH/teabot_scale.rb
+        cd $DAEMON_PATH     
+        ruby teabot_scale.rb start
+;;
+stop)
+        cd $DAEMON_PATH
+        ruby teabot_scale.rb stop
+;;
+
+restart)
+  	$0 stop
+  	$0 start
+;;
+
+*)
+        echo "Usage: $0 {start|stop|restart}"
+        exit 1
+esac
