@@ -2,7 +2,6 @@ require 'rubygems'
 require 'yaml'
 require File.dirname(__FILE__) + '/time-ago-in-words.rb'
 require 'libusb'
-require 'active_support'
 
 def yaml_path(name='working_data')
   File.dirname(__FILE__) + "/../data/#{name}.yml"
@@ -167,13 +166,14 @@ def record_data(reading)
   get_data
   # Actual data to record
   line = [
-    Time.now.seconds_since_midnight.to_i,
+    Time.now.to_i,
     percent
   ]
   # make correctly formatted CSV line
   line = CSV.generate_line(line)
 
-  file_path = "File.dirname(__FILE__)/../recorded_data/#{Time.new.strftime('%y-%m-%d')}.csv"
+  file_path = "#{File.dirname(__FILE__)}/../recorded_data/#{Time.new.strftime('%y-%m-%d')}.csv"
+  `touch #{file_path}`
   File.open(file_path, 'a') do |file|
     file.puts line
   end

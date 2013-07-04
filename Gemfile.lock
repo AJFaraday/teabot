@@ -1,6 +1,8 @@
 GEM
+  remote: http://rubygems.org/
   specs:
     activesupport (2.3.14)
+    daemons (1.1.9)
     ffi (1.9.0)
     json (1.7.5)
     libusb (0.3.4)
@@ -19,6 +21,7 @@ PLATFORMS
 
 DEPENDENCIES
   activesupport
+  daemons
   json
   libusb
   sinatra

@@ -1,10 +1,3 @@
-#
-# This script clears the deadlock which appears to be taken out on plugging in or turning on the scale
-#
-# No, I don't know how to do this in the read_scale script without causing further errors.
-#
-
-
 require 'rubygems'
 require 'libusb'
 
