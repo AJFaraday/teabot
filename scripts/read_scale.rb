@@ -2,6 +2,8 @@ require 'rubygems'
 require 'libusb'
 require File.dirname(__FILE__) + '/../lib/helpers.rb'
 
+@armed = false
+@n = 0
 
 loop do
   loop do
@@ -48,30 +50,41 @@ loop do
           # setting data in the same way I did before the scale
           get_data
 
-          if @data[:empty_weight] and @data[:last_positive_weight]
+          if @data[:empty_weight] and @data[:full_weight]
             # Normal Working
+
 
             modified_weight = reading.to_f - @data[:empty_weight]
             modified_full_weight = @data[:full_weight]-@data[:empty_weight]
             percent = ((modified_weight/modified_full_weight)*100).to_i
 
-            if ((reading.to_f > (@data[:last_positive_weight].to_f * 1.1)) and
-              (reading > @data[:empty_weight]) and
-              percent > 80 and percent < 110 #and
-                                             #reading.to_f == @data[:weight].to_f
+            if ((reading.to_f > (@data[:last_weight_in_range].to_f * 1.1)) and
+              @data[:weight] < @data[:empty_weight] and
+            percent > 65 and percent < 110
             )
-              puts "Looks like the teapot's been filled again."
-              set_data({:weight => reading.to_f, :last_filled => Time.now}, true)
+              @armed = true
+            end
+            if @armed and percent > 65 and percent < 110
+              if @n == 2
+                puts "Looks like the teapot's been filled again."
+                set_data({:weight => reading.to_f, :last_filled => Time.now}, true)
+              else
+                @n += 1
+              end
             else
               set_data({:weight => reading.to_f}, true)
+              @armed = false
+              @n = 0
+            end
+
+            if percent > 0 and percent < 110
+              set_data({:last_weight_in_range => reading}, true)
             end
 
           else
             # For pre-setup teabot
             set_data({:weight => reading.to_f}, true)
-          end
-          if reading > @data[:empty_weight].to_f
-            set_data({:last_positive_weight => reading}, true)
+
           end
 
           record_data(reading)
