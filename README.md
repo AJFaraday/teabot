@@ -77,7 +77,7 @@ This has been tested with Ubuntu Server Edition on a netbook, but a Rasperry Pi 
 * `sudo /etc/init.d/teabot_scale start` (look for 'Starting teabot polling at /opt/teabot/scripts/teabot_scale.rb'
 * Plug in the DYMO M5, and turn it on
 * `tail -f data/working_data.yml` and check that the weight property changes with the scale.
-* `update-rc.d teabot_scale defaults`
+* `sudo update-rc.d teabot_scale defaults`
 * `gem install passenger`
 * `sudo passenger-install-apache2-module` (and follow the many instructions on screen)
 * `sudo cp xtra/default.apache.template /etc/apache2/sites-available/default`
