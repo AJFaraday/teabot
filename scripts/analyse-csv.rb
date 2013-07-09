@@ -1,3 +1,7 @@
+# Classic detection algorithm
+#
+# Weight has increased 10% from the last positive weight and is between 80 and 110 percent
+
 require 'rubygems'
 require File.dirname(__FILE__) + '/../lib/helpers.rb'
 require 'csv'
@@ -5,7 +9,6 @@ require 'csv'
 
 def classic_detection(reading)
   if ((reading.to_f > (@data[:last_positive_weight].to_f * 1.1)) and
-    (reading > 0) and
     reading > 80 and reading < 110 #and
                                    #reading.to_f == @data[:weight].to_f
   )
