@@ -99,6 +99,11 @@ def write_teapot(name, empty, cup, full, cup_capacity)
                     }),
       out
     )
+    set_data({:current_teapot => name,
+              :empty_weight => empty,
+              :cup_weight => cup,
+              :full_weight => full,
+              :cup_capacity => cup_capacity})
   end
 end
 

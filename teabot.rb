@@ -25,7 +25,7 @@ class Teabot < Sinatra::Base
 
   get '/' do
     unless @data[:full_weight]
-      message = "The teabot knows nothing! Please calibrate the scales."
+      message = URI.parse(URI.encode("The teabot knows nothing! Please calibrate the scales."))
       redirect "/calibrate?message=#{message}"
     end
     # This will be the general info view about the teapot
@@ -89,10 +89,10 @@ class Teabot < Sinatra::Base
   post '/remove_teapot' do
     name = params[:remove_teapot_name]
     if name == ''
-      @error = "If you want to remove a teapot, select one."
+      @error = URI.parse(URI.encode("If you want to remove a teapot, select one."))
     else
       remove_teapot(name)
-      @message = "Removed #{name} from the list of teapots."
+      @message = URI.parse(URI.encode("Removed #{name} from the list of teapots."))
     end
     display(:teapot_station)
   end
@@ -110,10 +110,10 @@ class Teabot < Sinatra::Base
   post '/add_pourer' do
     name = params[:new_pourer_name]
     if name.empty?
-      @error = "If you want to add a pourer, tell me their name."
+      @error = URI.parse(URI.encode("If you want to add a pourer, tell me their name."))
     else
       add_pourer(name)
-      @message = "Added #{name} to the list of pourers."
+      @message = URI.parse(URI.encode("Added #{name} to the list of pourers."))
     end
     display(:teapot_station)
   end
@@ -121,10 +121,10 @@ class Teabot < Sinatra::Base
   post '/remove_pourer' do
     name = params[:remove_pourer_name]
     if name == ''
-      @error = "If you want to remove a pourer, select one."
+      @error = URI.parse(URI.encode("If you want to remove a pourer, select one."))
     else
       remove_pourer(name)
-      @message = "Removed #{name} from the list of pourers."
+      @message = URI.parse(URI.encode("Removed #{name} from the list of pourers."))
     end
     display(:teapot_station)
   end
@@ -144,10 +144,10 @@ class Teabot < Sinatra::Base
   post '/add_tea' do
     name = params[:new_tea_name]
     if name.empty?
-      @error = "If you want to add a tea, tell me their name."
+      @error = URI.parse(URI.encode("If you want to add a tea, tell me their name."))
     else
       add_tea(name)
-      @message = "Added #{name} to the list of teas."
+      @message = URI.parse(URI.encode("Added #{name} to the list of teas."))
     end
     display(:teapot_station)
   end
@@ -155,10 +155,10 @@ class Teabot < Sinatra::Base
   post '/remove_tea' do
     name = params[:remove_tea_name]
     if name == ''
-      @error = "If you want to remove a tea, select one."
+      @error = URI.parse(URI.encode("If you want to remove a tea, select one."))
     else
       remove_tea(name)
-      @message = "Removed #{name} from the list of teas."
+      @message = URI.parse(URI.encode("Removed #{name} from the list of teas."))
     end
     display(:teapot_station)
   end
@@ -174,27 +174,27 @@ class Teabot < Sinatra::Base
     puts params.inspect
     case params[:step]
       when '2'
-        set_data(:empty_weight => @data[:weight])
+        set_data(:calib_empty_weight => @data[:weight])
         erb(:_calibrate_step2)
       when '3'
         weight = @data[:weight]
-        if weight.to_f > @data[:empty_weight].to_f
-          set_data({:cup_weight => (weight.to_f - @data[:empty_weight].to_f)})
+        if weight.to_f > @data[:calib_empty_weight].to_f
+          set_data({:calib_cup_weight => (weight.to_f - @data[:calib_empty_weight].to_f)})
           erb(:_calibrate_step3)
         else
-          @error = "A teapot usually gets heavier when you add a cup of water. Are you sure you're not filling it with helium?"
+          @error = URI.parse(URI.encode("A teapot usually gets heavier when you add a cup of water. Are you sure you're not filling it with helium?"))
           erb(:_calibrate_step2)
         end
       when '4'
         weight = @data[:weight]
-        if weight.to_f >= (@data[:empty_weight].to_f+@data[:cup_weight].to_f)
-          cup_capacity = ((weight.to_f-@data[:empty_weight].to_f)/@data[:cup_weight].to_f).to_i
-          set_data(:full_weight => weight.to_f, :cup_capacity => cup_capacity)
+        if weight.to_f >= (@data[:calib_empty_weight].to_f+@data[:calib_cup_weight].to_f)
+          cup_capacity = ((weight.to_f-@data[:calib_empty_weight].to_f)/@data[:calib_cup_weight].to_f).to_i
+          set_data(:calib_full_weight => weight.to_f, :calib_cup_capacity => cup_capacity)
           # A list of saved teapot names
           @teapots = teapot_names
           erb(:_calibrate_step4)
         else
-          @error = "A teapot usually gets heavier when you fill it up. Are you sure you filled it?"
+          @error = URI.parse(URI.encode("A teapot usually gets heavier when you fill it up. Are you sure you filled it?"))
           erb(:_calibrate_step3)
         end
       when '5'
@@ -205,12 +205,12 @@ class Teabot < Sinatra::Base
           name = params[:teapot][:name]
         end
         write_teapot(name,
-                     @data[:empty_weight],
-                     @data[:cup_weight],
-                     @data[:full_weight],
-                     @data[:cup_capacity])
-        set_data({:current_teapot => name})
-        @message = "You've saved this teapot '#{name}' for future use."
+                     @data[:calib_empty_weight],
+                     @data[:calib_cup_weight],
+                     @data[:calib_full_weight],
+                     @data[:calib_cup_capacity])
+
+        @message = URI.parse(URI.encode("You've saved this teapot '#{name}' for future use."))
         redirect "/?message=#{@message}"
       else
         "<h1>IT'S ALL GONE WRONG!!!</h1>\n#{params.inspect}"
