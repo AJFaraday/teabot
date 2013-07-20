@@ -68,6 +68,7 @@ loop do
               if @n == 2
                 puts "Looks like the teapot's been filled again."
                 set_data({:weight => reading.to_f, :last_filled => Time.now}, true)
+                @armed = false
               else
                 @n += 1
               end
