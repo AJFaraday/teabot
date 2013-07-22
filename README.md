@@ -65,7 +65,7 @@ The aim of this installation is a 'closed box' running the Teabot without mainte
 This has been tested with Ubuntu Server Edition on a netbook, but a Rasperry Pi teabot is on the roadmap.
 
 * Install Ubuntu Server Edition (http://www.ubuntu.com/download/server). I recommend calling the computer and user 'teabot'
-* `sudo apt-get install ruby rubygems git apache2 openssh`
+* `sudo apt-get install ruby rubygems git apache2 openssh-server`
 * Generate an ssh key and add it to your github account (you will need a github account) as described in https://help.github.com/articles/generating-ssh-keys
 * `cd /opt`
 * `git clone git@github.com:AJFaraday/teabot.git`
